@@ -14,12 +14,12 @@
 
     Author: Olivier Gruber (olivier dot gruber at acm dot org)
 */
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
+#include "constante.h"
 
-#define COM1 ((uint16_t)0x3f8)
-#define COM2 ((uint16_t)0x2f8)
-#define UART ((uint16_t)0xB8000)
+typedef struct s_hisory {
+  int cursor;
+  char *history[HISTORY_SIZE];
+} history;
 
 static __inline __attribute__((always_inline, no_instrument_function))
 uint8_t inb(uint16_t port) {
@@ -48,8 +48,6 @@ static void serial_init(uint16_t port) {
 
   // outb(port+1,0x0d); // enable all intrs but writes
 }
-
-
 
 static
 void serial_write_char(uint16_t port, char c) {
@@ -93,46 +91,37 @@ void write_string( int colour, const char *string ) {
     }
 }
 
-void write_char(const char c) {
-  volatile char *video = (volatile char*)0xB8000;
-  video[3999] = c;
-}
-
-void print_screen(uint16_t screen[]) {
-  volatile char *video = (volatile char*)0xB8000;
-  for(int i = 0 ; i < 80*25*2 ; i++) {
-      video[i] = screen[i];
-  }
-}
-
-int i=0;
 void kputchar(int c, void *arg) {
   serial_write_char(COM2,c);
 }
 
-void shift_screen(uint16_t screen[]) {
-//  volatile char *video = (volatile ) -  char*)0xB8000;
-  for(int i = 0; i < (80*25*2) - 160 ; i++) {
-      screen[i] = screen[i+ 160];
+void shift_screen(volatile char* screen) {
+  for(int i = 0; i < (80*25*2) - LINE_SIZE ; i++) {
+      screen[i] = screen[i + LINE_SIZE];
   }
-  for(int i = (80*25*2) - 160 ; i < (80*25*2) + 160; i++) {
-    screen[i] = ' ';
-    i++;
+}
+
+void history_get_line(int n_line, volatile char *out_line, const history *hist) {
+  for(int i  = 0; i < LINE_SIZE; i++) {
+    out_line[i] =  hist->history[i];
   }
+}
+
+void save_line(volatile char *line, history *hist) {
+  for(int i = 0; i < LINE_SIZE; i++) {
+    hist->history[i] = line[i];
+  }
+  hist->cursor++;
 }
 
 void kmain(void) {
   int cursor = 0;
-  int size = 80*25*2;
-  uint16_t screen[  80*25*2];
-
-  for (int i = 0 ; i < size; i++) {
+  volatile char *screen = (volatile char*)0xB8000;
+  history hist;
+  for (int i = 0 ; i < 80*25*2; i++) {
     screen[i++] = ' ';
     screen[i] = 0x2a;
   }
-
-
-  write_string(0x2a,"Console greetings!");
 
   serial_init(COM1);
   serial_write_string(COM1,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
@@ -142,21 +131,27 @@ void kmain(void) {
     unsigned char c;
     c=serial_read(COM1);
       if (c==13) {
-        if(cursor / 160 >= 24 ) {
+        save_line( &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+        if(cursor / LINE_SIZE >= 24 ) {
           shift_screen(screen);
-          int pos = cursor % 160;
+          int pos = cursor % LINE_SIZE;
           cursor = cursor - pos;
         } else {
-          int pos = cursor % 160;
-          cursor += 160 - pos;
+          int pos = cursor % LINE_SIZE;
+          cursor += LINE_SIZE - pos;
         }
       } else if(c==127) {
-        cursor -= 2;
-        screen[cursor] = ' ';
+        if(cursor % LINE_SIZE != 0) {
+          cursor -= 2;
+          screen[cursor] = ' ';
+        }
+      } else if (c == '\033') {
+        serial_read(COM1);
+        serial_read(COM1);
+        history_get_line(0, &(screen[LINE_SIZE * (cursor / LINE_SIZE) ]), &hist);
       } else {
         screen[cursor] = c;
         cursor+=2;
       }
-      print_screen(screen);
   }
 }
