@@ -1,0 +1,171 @@
+\documentclass[10]{article}
+\usepackage{graphicx}
+\usepackage{listings}
+\begin{document}
+\title{Grenoble University}
+\author{Marwen AZOUZI - Adrien FAURE}
+\date{\today}
+\maketitle
+
+\section{Qemu}
+
+\subsection{What is Qemu for?}
+Qemu is a opensource virtual machine capable of simulating différent physical architecture such as x86, arm etc.
+\subsection{Why cannot you run a linux kernel in a regular linux process?}
+The kernel's main purpose is to provide an interface between the hardware and the software.
+ Without such hardware, the  kernel wont be able to load.
+\subsection{Comment the different options you used to start qemu ?}
+\begin{enumerate}
+	\item
+		\begin{verbatim} -s \end{verbatim} 
+		 Shorthand for -gdb tcp::1234, i.e. open a gdbserver on TCP port 1234. 	
+		This option will allow to use the gdbdebugger. (with tcp via port 1234)
+	\item 
+		\begin{verbatim}-S \end{verbatim}  
+		do not strat CPU on start-up. Allow to wait user input. USefull for debugging.
+	\item \begin{verbatim} -serial stdio \end{verbatim} 
+	Tell qemu we need to bind the current stdin/stdout to the kernel via the serial port. 	
+	\item  
+		\begin{verbatim} -hda \end{verbatim}  
+		The disk image we need to boot from.
+		
+\end{enumerate}
+
+\section{Boot Process}
+
+\subsection{How is an x86 machine booting up ? }
+The machine first run the BIOS which will enumerate the hardware and initialize and execute the bootloader. The bootloader then load the kernel into memory and finally run the kernel.
+
+\subsection{What is the role of each involved parts?}
+\begin{enumerate}
+	\item 
+	Bios : Is a firmware used to perform hardware initialization and load a bootloader.
+	\item 
+	Master Boot Record (MBR) : A boot sector that contains the bootloader code.
+	\item 
+	Bootloader : Loads the kernel into the memory and run It.
+	\item 
+	Kernel : The operating system.
+\end{enumerate}
+\subsection{How is built the disk image that you use to boot with qemu?}
+The disk image is built thanks to the commande dd. It reads streams (object file) and writes it into the image (hda.img). 
+The image contains two sectors :
+\begin{enumerate}
+	\item
+	The master boot record.
+	\item 
+	The kernel 
+\end{enumerate}
+
+\section{Using Eclipse to browse the sources}
+
+We used Atom ;)
+
+\section{Master Boot Record}
+
+\subsection{From what sources (.c and .S files) is the MBR built?}
+	The MBR is built  with two modules. 
+	the loader.c and the  boot.S.
+	
+\subsection{What is the purpose of those different files?}
+	The file   \texttt{boot.S}  initialize the physic environment and then call the C fonction diskboot from the file loader.c.
+	The file  \texttt{loader.c } read and load the kernel from the image. Once the kernel is loaded, diskboot jump to its first instruction.
+\subsection{What is an ELF? (Hint: man elf, Google is your friend)}
+	ELF  from is name Executable and Linkable Format is a file format which 
+\subsection{Why is the objcopy program used? (Hint: look in the Makefile)}
+
+\subsection{What kind of information is available in an ELF file?}
+The ELF file contains an header which can describe three type of files : 
+\begin{enumerate}
+	 \item
+	Program header table, describing zero or more segments
+	\item
+	Section header table, describing zero or more sections
+	\item
+	Data referred to by entries in the program header table or section header table
+\end{enumerate}
+\subsection{Give the ELF layout of the MBR files (hint: readelf and objdump)}
+The elf file contains 32 entry on the symbole table. Also we can see that the entry point of this file is at the adress  0x7c00.
+\subsection{Look at the code in loader.c and understand it.}
+The loader.C read an ELF file and when its done, it jump to the elf entry point.
+\subsection{What are the function waitdisk, readsect, and readseg doing?} 
+Helper to read an elf file. The fonction readseg is used to load a segment described into the elf file. ReadSect load the variables into the memory. 
+Wait disk wait for the end of the operation.
+\subsection{Explain the dialog with the disk controller.}
+Dialoging with the disk implie using asm directive (such as \texttt{ \_\_asm\_\_volatile } procedures).
+Those function are used to configure or initialize the hardware.
+\subsection{What can you say about the concepts at the software-hardware frontier?}
+
+\section{Master Boot Record Debugging}
+
+\subsection{Look at the dbg target in the Makefile.}
+\subsection{Look at the .gdbinit file.}
+\subsection{Use source layout in gdb.}
+\subsection{Use emacs as a front end.}
+
+List and explain the various gdb commands you use.
+
+\section{Our mini Kernel}
+
+\subsection{What is the code in crt0.S doing?}
+The crt0.S code initialize  memory and then run the function \texttt{kmain} from \texttt{main.c}.
+
+\subsection{What are the function in/out for at this level?}
+The in/out are main mainly used to communicate with devices, keyboard, screen  etc.
+\subsection{What are the inline attributes for?}
+\begin{enumerate}
+ 	\item
+ 	The \texttt{\_\_inline} is used to tell the compiler than the code  can be run faster. In most case the compiler will substitute the whole code into its caller.
+ 	\item
+ 	The keyword \texttt{\_\_attribute\_\_} can be used to specify special attributes of functions in order to help the compiler optimize calls to them. For example, we can force a function to be inlined, even when optimization is not enabled, by using the \texttt{always\_inline} attribute.
+
+
+ 	
+\end{enumerate}
+\subsection{Explain why is your fan ramping up when you launch qemu with:}
+An infinite loop (\texttt{while(1)} in main.c) is a very processor-intensive task which uses 100% of one CPU core hince the fan ramping.
+
+\subsection{Explain what is the relationship between the qemu option (-serial stdio) and the COM1 concept in the program.}
+
+The COM1 is a communication port (COM) which refers to a virtual serial port in our case. It uses the 0x3F8 I\/O address to send and recieve information (characters in our case) through the stdio.
+\subsection{Explain what is COM1 versus the console?}
+
+\section{Debugging with Eclipse}
+
+How did you setup your Eclipse to debug your mini kernel?
+
+\section{Kernel Extensions}
+
+{\bf IT IS MANDATORY TO USE THE DEBUGGER TO DEBUG YOUR CODE.}
+
+\subsection{Echo on the screen}
+
+This extension is to have the input from the UART be
+echoed on the console screen (the greenish output).
+Do not forget that you have only 25 lines and you will
+need to implement scrolling.
+
+\subsection{History and line editing}
+
+This extension is to have a history of typed lines.
+A line is added to the history when the return key is pressed.
+The arrow up and down allow you to scroll up and down in the history.
+The arrow left and write allow you to move left and right in the current line.
+The backspace and delete allow you delete characters.
+
+\subsection{Echo on COM2}
+
+This extension is to have the ability to have a printf-like
+capability on COM2. The code is in the kprintf.c file.
+
+\noindent Hints:
+\subsection{Look at the target run2 in the Makefile to know how}
+to setup COM2.
+\subsection{Add the kprintf.c file to your kernel}
+\subsection{Launch with ``make run2'' and use a telnet connection}
+for COM2.
+
+
+\section{Laboratory Log}
+
+\end{document}

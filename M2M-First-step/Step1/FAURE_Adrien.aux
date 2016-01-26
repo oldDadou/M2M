@@ -1,0 +1,42 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}Qemu}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}What is Qemu for?}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Why cannot you run a linux kernel in a regular linux process?}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Comment the different options you used to start qemu ?}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Boot Process}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}How is an x86 machine booting up ? }{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}What is the role of each involved parts?}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}How is built the disk image that you use to boot with qemu?}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Using Eclipse to browse the sources}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Master Boot Record}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}From what sources (.c and .S files) is the MBR built?}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}What is the purpose of those different files?}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}What is an ELF? (Hint: man elf, Google is your friend)}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Why is the objcopy program used? (Hint: look in the Makefile)}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}What kind of information is available in an ELF file?}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Give the ELF layout of the MBR files (hint: readelf and objdump)}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7}Look at the code in loader.c and understand it.}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}What are the function waitdisk, readsect, and readseg doing?}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Explain the dialog with the disk controller.}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10}What can you say about the concepts at the software-hardware frontier?}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Master Boot Record Debugging}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Look at the dbg target in the Makefile.}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Look at the .gdbinit file.}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Use source layout in gdb.}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Use emacs as a front end.}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Our mini Kernel}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}What is the code in crt0.S doing?}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}What are the function in/out for at this level?}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}What are the inline attributes for?}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4}Explain why is your fan ramping up when you launch qemu with:}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5}Explain what is the relationship between the qemu option (-serial stdio) and the COM1 concept in the program.}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6}Explain what is COM1 versus the console?}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Debugging with Eclipse}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Kernel Extensions}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Echo on the screen}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}History and line editing}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Echo on COM2}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4}Look at the target run2 in the Makefile to know how}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.5}Add the kprintf.c file to your kernel}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.6}Launch with ``make run2'' and use a telnet connection}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Laboratory Log}{6}}

@@ -1,0 +1,99 @@
+Connecting to deprecated signal QDBusConnectionInterface::serviceOwnerChanged(QString,QString,QString)
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+QDBusConnection: session D-Bus connection created before QCoreApplication. Application may misbehave.
+kbuildsycoca4 running...
+kbuildsycoca4(11822) VFolderMenu::loadDoc: Parse error in  "/home/dadou/.config/menus/applications-merged/xdg-desktop-menu-dummy.menu" , line  1 , col  1 :  "unexpected end of file" 
+QInotifyFileSystemWatcherEngine::addPaths: inotify_add_watch failed: Aucun fichier ou dossier de ce type
+QFileSystemWatcher: failed to add paths: /home/dadou/.config/ibus/bus
+Bus::open: Can not get ibus-daemon's address. 
+IBusInputContext::createInputContext: no connection to ibus-daemon 
+QInotifyFileSystemWatcherEngine::addPaths: inotify_add_watch failed: Aucun fichier ou dossier de ce type
+QFileSystemWatcher: failed to add paths: /home/dadou/.config/ibus/bus
+Bus::open: Can not get ibus-daemon's address. 
+IBusInputContext::createInputContext: no connection to ibus-daemon 
+QInotifyFileSystemWatcherEngine::addPaths: inotify_add_watch failed: Aucun fichier ou dossier de ce type
+QFileSystemWatcher: failed to add paths: /home/dadou/.config/ibus/bus
+Bus::open: Can not get ibus-daemon's address. 
+IBusInputContext::createInputContext: no connection to ibus-daemon 
+kbuildsycoca4 running...
+kbuildsycoca4(15193) VFolderMenu::loadDoc: Parse error in  "/home/dadou/.config/menus/applications-merged/xdg-desktop-menu-dummy.menu" , line  1 , col  1 :  "unexpected end of file" 
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/16"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/22"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/24"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/32"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/48"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/64"
+Invalid Context= "stock" line for icon theme:  "/usr/share/icons/ubuntu-mono-light/stock/128"
+KSambaShare: Could not find smb.conf!
+"Error (78568): Illegal character '>'"
+"Error (78568): Illegal character '>'"
+"Error: font resource is not a dictionary"
+"Error (78568): Illegal character '>'"
+"Error: font resource is not a dictionary"
+"Error (78568): Illegal character '>'"
+"Error: Couldn't find trailer dictionary"
+"Error: Couldn't find trailer dictionary"
+"Error: Invalid XRef entry"
+"Error (78568): Illegal character '>'"
+"Error (78568): Illegal character '>'"
+"Error: font resource is not a dictionary"
+"Error (78568): Illegal character '>'"
+"Error: font resource is not a dictionary"
+"Error (78568): Illegal character '>'"
+"Error: font resource is not a dictionary"
+"Error (78568): Illegal character '>'"
+"Error: Couldn't find trailer dictionary"
+"Error: Couldn't find trailer dictionary"
+"Error: Invalid XRef entry"
+QXcbConnection::atomName: bad Atom 1750297967
+QXcbConnection::atomName: bad Atom 2036427888
+"Error: Couldn't open file '/home/dadou/Documents/Cours/M2M/M2M-First-step/Step1/FAURE_Adrien.pdf': Aucun fichier ou dossier de ce type."
+"Error: Couldn't open file '/home/dadou/Documents/Cours/M2M/M2M-First-step/Step1/FAURE_Adrien.pdf': Aucun fichier ou dossier de ce type."
+QXcbConnection::atomName: bad Atom 1919252833
+"Error: font resource is not a dictionary"
+"Error: font resource is not a dictionary"
+"Error: Couldn't find trailer dictionary"
+"Error: Unknown font tag 'F26'"
+"Error (2880): No font in show/space"
+"Error (2895): No font in show/space"
+"Error (2919): No font in show/space"
+"Error (2949): No font in show/space"
+"Error: Unknown font tag 'F8'"
+"Error (3017): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3042): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3079): No font in show/space"
+"Error (3112): No font in show/space"
+"Error (3131): No font in show/space"
+"Error (3193): No font in show/space"
+"Error (3206): No font in show/space"
+"Error: Unknown font tag 'F8'"
+"Error (3238): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3293): No font in show/space"
+"Error (3315): No font in show/space"
+"Error: Unknown font tag 'F8'"
+"Error (3348): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3375): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3401): No font in show/space"
+"Error: Unknown font tag 'F8'"
+"Error (3450): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3467): No font in show/space"
+"Error: Unknown font tag 'F28'"
+"Error (3531): No font in show/space"
+"Error (3538): No font in show/space"
+"Error: Unknown font tag 'F26'"
+"Error (3558): No font in show/space"
+"Error: Unknown font tag 'F8'"
+"Error (3625): No font in show/space"
+"Error (3700): No font in show/space"
+"Error (3740): No font in show/space"
+"Error: No font in show/space"
+kdeinit4: Fatal IO error: client killed
+okular: Fatal IO error: client killed
+kded4: Fatal IO error: client killed
+klauncher: Exiting on signal 15
