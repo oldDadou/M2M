@@ -17,8 +17,9 @@
 #include "constante.h"
 
 typedef struct s_hisory {
+  int elements;
   int cursor;
-  char *history[HISTORY_SIZE];
+  char history[HISTORY_SIZE * LINE_SIZE];
 } history;
 
 static __inline __attribute__((always_inline, no_instrument_function))
@@ -102,22 +103,35 @@ void shift_screen(volatile char* screen) {
 }
 
 void history_get_line(int n_line, volatile char *out_line, const history *hist) {
+  n_line = hist->cursor + n_line >= hist->elements ? (n_line + hist->cursor) - hist->elements : hist->cursor + n_line;
+  int start = n_line * LINE_SIZE;
   for(int i  = 0; i < LINE_SIZE; i++) {
-    out_line[i] =  hist->history[i];
+    out_line[i] =  hist->history[start + i];
   }
 }
 
 void save_line(volatile char *line, history *hist) {
+  int start = hist->cursor * LINE_SIZE;
   for(int i = 0; i < LINE_SIZE; i++) {
-    hist->history[i] = line[i];
+    hist->history[start + i] = line[i];
   }
+  if(hist->elements < HISTORY_SIZE) hist->elements++;
+
   hist->cursor++;
+  if(hist->cursor == hist->elements) hist->cursor = 0;
 }
 
 void kmain(void) {
   int cursor = 0;
   volatile char *screen = (volatile char*)0xB8000;
   history hist;
+  hist.cursor = 0;
+  hist.elements = 0;
+
+  for (int i = 0 ; i < LINE_SIZE * HISTORY_SIZE; i++) {
+        hist.history[i] = 'c';
+  }
+
   for (int i = 0 ; i < 80*25*2; i++) {
     screen[i++] = ' ';
     screen[i] = 0x2a;
@@ -127,11 +141,12 @@ void kmain(void) {
   serial_write_string(COM1,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
 
   serial_write_char(COM1,'>');
+  int current_history = 0;
   while(1) {
     unsigned char c;
     c=serial_read(COM1);
       if (c==13) {
-        save_line( &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+        save_line(&(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
         if(cursor / LINE_SIZE >= 24 ) {
           shift_screen(screen);
           int pos = cursor % LINE_SIZE;
@@ -140,18 +155,27 @@ void kmain(void) {
           int pos = cursor % LINE_SIZE;
           cursor += LINE_SIZE - pos;
         }
+        current_history = 0;
       } else if(c==127) {
         if(cursor % LINE_SIZE != 0) {
           cursor -= 2;
           screen[cursor] = ' ';
         }
+        current_history = 0;
       } else if (c == '\033') {
         serial_read(COM1);
-        serial_read(COM1);
-        history_get_line(0, &(screen[LINE_SIZE * (cursor / LINE_SIZE) ]), &hist);
+        char arrow = serial_read(COM1);
+        if(arrow == 'A') {
+          history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+          if(current_history + 1 < hist.elements) current_history++;
+        } else if(arrow == 'B') {
+          if(current_history - 1 < 0) current_history--;
+          history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+        }
       } else {
         screen[cursor] = c;
         cursor+=2;
+        current_history = 0;
       }
   }
 }
