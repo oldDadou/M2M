@@ -1,7 +1,7 @@
 
 This is a home-brewed bootloader, working out of the Master Boot Record (MBR).
 This bootloader does not support partitions, it sees the disk as one contiguous
-disk. The loader only needs one sector and it assumes that there is an ELF 
+disk. The loader only needs one sector and it assumes that there is an ELF
 executable to load from the second sector onward.
 
 As a sample, we provide a simple kernel that only supports an echo console
@@ -12,19 +12,19 @@ not a complete kernel.
 The Boot Loader
 ---------------------------------------------------------------------
 boot.S:
-The startup code is located in 0x7C00, as defined by the convention of 
+The startup code is located in 0x7C00, as defined by the convention of
 the BIOS MBR boot sequence. Notice in the makefile that we tag the MBR
 with the proper 0x55AA tag in the last two bytes.
 
 The stack is set from 0x7C00, growing downward.
-Then, the code switches the processor from 16bit to 32bit mode. 
-And then from real to protected mode, setting up 
+Then, the code switches the processor from 16bit to 32bit mode.
+And then from real to protected mode, setting up
 the various segments that are necessary in protected mode.
 Finally, the assembly part ends, calling the C function "diskboot"
 
 ---------------------------------------------------------------------
 loader.c:
-This is the C code to read an ELF executable file, from the disk, 
+This is the C code to read an ELF executable file, from the disk,
 starting at sector 1. The ELF file sections will be loaded in memory
 where they expect to be and the loader will jump to the entry point.
 
@@ -46,13 +46,13 @@ Just an echo through the serial line.
 Launching with QEMU:
 
    $> qemu-system-i386 -serial stdio -hda hda.img
-   
+
 
 =====================================================================
 Debugging with QEMU
 ---------------------------------------------------------------------
 
-The Makefile compiles with -g, so all the code can be debugged with gdb. 
+The Makefile compiles with -g, so all the code can be debugged with gdb.
 Fortunately, qemu includes a gdb stub, so we can actually debug from the
 very first instruction.
 
@@ -62,11 +62,11 @@ Regular launch with Qemu:
 
 Debug with Qemu:
 
-    $> qemu-system-i386 -serial stdio -hda hda.img -S -s 
+    $> qemu-system-i386 -serial stdio -hda hda.img -S -s
 
 and in another window:
 
-    $> gdb 
+    $> gdb
     ...
     Breakpoint 1 at 0x7c00: file boot.S, line 37.
     Breakpoint 2 at 0x7c56: file boot.S, line 116.
@@ -119,7 +119,7 @@ You can set a new breakpoint in kmain (the C entry point):
 
     Breakpoint 4, kmain () at console.c:39
     39	void kmain(void) {
-    (gdb) 
+    (gdb)
 
 And here you are... in kmain(void), in the sample console program.
 Of course, you can use another disk image with whatever kernel you wish.
