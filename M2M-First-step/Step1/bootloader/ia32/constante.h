@@ -10,7 +10,7 @@ typedef unsigned short uint16_t;
 
 #define UART ((uint16_t)0xB8000)
 
-#define HISTORY_SIZE 20
+#define HISTORY_SIZE 5
 #define LINE_SIZE (80*2)
 
 #define SCREEN_SIZE  80*25*2

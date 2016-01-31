@@ -98,15 +98,16 @@ void kputchar(int c, void *arg) {
 
 void shift_screen(volatile char* screen) {
   for(int i = 0; i < (80*25*2) - LINE_SIZE ; i++) {
-      screen[i] = screen[i + LINE_SIZE];
+    screen[i] = screen[i + LINE_SIZE];
   }
 }
 
 void history_get_line(int n_line, volatile char *out_line, const history *hist) {
+  n_line = hist->elements - 1 - n_line;
   n_line = hist->cursor + n_line >= hist->elements ? (n_line + hist->cursor) - hist->elements : hist->cursor + n_line;
   int start = n_line * LINE_SIZE;
   for(int i  = 0; i < LINE_SIZE; i++) {
-    out_line[i] =  hist->history[start + i];
+    out_line[i] = hist->history[start + i];
   }
 }
 
@@ -118,7 +119,7 @@ void save_line(volatile char *line, history *hist) {
   if(hist->elements < HISTORY_SIZE) hist->elements++;
 
   hist->cursor++;
-  if(hist->cursor == hist->elements) hist->cursor = 0;
+  if(hist->cursor == HISTORY_SIZE) hist->cursor = 0;
 }
 
 void kmain(void) {
@@ -169,7 +170,7 @@ void kmain(void) {
           history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
           if(current_history + 1 < hist.elements) current_history++;
         } else if(arrow == 'B') {
-          if(current_history - 1 < 0) current_history--;
+          if(current_history - 1 >= 0) current_history--;
           history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
         }
       } else {
