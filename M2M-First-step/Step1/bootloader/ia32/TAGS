@@ -1,0 +1,213 @@
+
+loader.c,483
+#define ELF_EHDR ELF_EHDR20,744
+#define ELF_PHDR ELF_PHDR21,772
+#define ELF_MACH ELF_MACH22,800
+#define ELF_OFFSET ELF_OFFSET24,831
+#define SECTSIZE	SECTSIZE25,884
+#define ELFHDR	ELFHDR26,905
+void waitdisk(void) {waitdisk29,969
+void readsect(void *dst, uint32_t offset) {readsect36,1089
+void readseg(uint32_t va, uint32_t count, uint32_t offset) {readseg59,1605
+uint32_t load_elf() {load_elf81,2170
+void diskboot(uint32_t _eax, uint32_t _ebx) {diskboot122,3278
+
+main.c,968
+typedef struct s_hisory {s_hisory19,746
+  int elements;elements20,772
+  int cursor;cursor21,788
+  char history[ HISTORY_SIZE * LINE_SIZE ];history22,802
+} history;history23,846
+uint8_t inb(uint16_t port) {inb26,929
+void outb(uint16_t port, uint8_t data) {outb33,1124
+static void serial_init(uint16_t port) {serial_init38,1231
+void serial_write_char(uint16_t port, char c) {serial_write_char54,1775
+void serial_write_string(uint16_t port, const unsigned char *s) {serial_write_string60,1888
+char serial_read(uint16_t port) {serial_read67,2024
+void write_string( int colour, const char *string ) {write_string87,2517
+void kputchar(int c, void *arg) {kputchar95,2717
+void shift_screen(volatile char* screen) {shift_screen99,2783
+void history_get_line(int n_line, volatile char *out_line, const history *hist) {history_get_line105,2926
+void save_line(volatile char *line, history *hist) {save_line113,3253
+void kmain(void) {kmain124,3560
+
+loader.h,4813
+#define __LOADER____LOADER__3,20
+#define STAGE1_PARTEND	STAGE1_PARTEND6,93
+#define STAGE1_SIGNATURE	STAGE1_SIGNATURE9,161
+#define ARCH_IA32ARCH_IA3211,194
+#define DIRECT_BOOT_EAX_MAGIC	DIRECT_BOOT_EAX_MAGIC13,213
+#define	SYSXBOOT_EAX_MAGIC	SYSXBOOT_EAX_MAGIC14,254
+typedef __signed char int8_t;int8_t17,339
+typedef unsigned char uint8_t;uint8_t18,369
+typedef short int16_t;int16_t19,400
+typedef unsigned short uint16_t;uint16_t20,423
+typedef int int32_t;int32_t21,456
+typedef unsigned int uint32_t;uint32_t22,477
+#define X86_INST_ATTR	X86_INST_ATTR24,509
+uint8_t inb(uint16_t port) {inb27,617
+void insb(uint16_t port, void *addr, int cnt) {insb34,755
+uint16_t inw(uint16_t port) {inw43,942
+void insw(uint16_t port, void *addr, int cnt) {insw50,1082
+uint32_t inl(uint16_t port) {inl58,1268
+void insl(uint16_t port, void *addr, int cnt) {insl65,1408
+void outb(uint16_t port, uint8_t data) {outb73,1594
+void outsb(uint16_t port, const void *addr, int cnt) {outsb78,1714
+void outw(uint16_t port, uint16_t data) {outw86,1897
+void outsw(uint16_t port, const void *addr, int cnt) {outsw91,2018
+void outsl(uint16_t port, const void *addr, int cnt) {outsl99,2201
+void outl(uint16_t port, uint32_t data) {outl107,2384
+#define ELF_MAGIC_BE	ELF_MAGIC_BE111,2491
+#define ELF_MAGIC_LE	ELF_MAGIC_LE112,2554
+#define ELF_TYPE_EXEC	ELF_TYPE_EXEC115,2638
+#define ELF_TYPE_DYNAMIC	ELF_TYPE_DYNAMIC116,2663
+#define ELF_TYPE_CORE	ELF_TYPE_CORE117,2690
+#define EI_CLASS	EI_CLASS120,2735
+#define EI_DATA	EI_DATA121,2755
+#define EI_VERSION	EI_VERSION122,2775
+#define EI_ABI	EI_ABI123,2797
+#define ELF_CLASS_32	ELF_CLASS_32126,2838
+#define ELF_CLASS_64	ELF_CLASS_64127,2862
+#define ELF_MACH_SPARC	ELF_MACH_SPARC130,2907
+#define ELF_MACH_386	ELF_MACH_386131,2933
+#define ELF_MACH_486	ELF_MACH_486132,2957
+#define ELF_MACH_AMD64	ELF_MACH_AMD64133,2981
+#define ELF_PROG_LOAD	ELF_PROG_LOAD136,3026
+#define ELF_PROG_INTERP	ELF_PROG_INTERP137,3051
+#define ELF_PF_X	ELF_PF_X140,3090
+#define ELF_PF_W	ELF_PF_W141,3113
+#define ELF_PF_R	ELF_PF_R142,3136
+#define ELF_SHT_NULL	ELF_SHT_NULL145,3171
+#define ELF_SHT_PROGBITS	ELF_SHT_PROGBITS146,3195
+#define ELF_SHT_SYMTAB	ELF_SHT_SYMTAB147,3222
+#define ELF_SHT_STRTAB	ELF_SHT_STRTAB148,3248
+#define ELF_SHN_UNDEF	ELF_SHN_UNDEF151,3286
+#define ELF_STN_UNDEF	ELF_STN_UNDEF154,3334
+#define ELF_ST_BIND(ELF_ST_BIND157,3382
+#define ELF_ST_TYPE(ELF_ST_TYPE158,3417
+#define ELF_ST_INFO(ELF_ST_INFO159,3453
+#define ELF_AT_NULL	ELF_AT_NULL162,3536
+#define ELF_AT_IGNORE	ELF_AT_IGNORE163,3580
+#define ELF_AT_EXECFD	ELF_AT_EXECFD164,3636
+#define ELF_AT_PHDR	ELF_AT_PHDR165,3695
+#define ELF_AT_PHENT	ELF_AT_PHENT166,3753
+#define ELF_AT_PHNUM	ELF_AT_PHNUM167,3813
+#define ELF_AT_PAGESZ	ELF_AT_PAGESZ168,3870
+#define ELF_AT_BASE	ELF_AT_BASE169,3919
+#define ELF_AT_FLAGS	ELF_AT_FLAGS170,3977
+#define ELF_AT_ENTRY	ELF_AT_ENTRY171,4014
+#define ELF_AT_NOTELF	ELF_AT_NOTELF172,4068
+#define ELF_AT_UID	ELF_AT_UID173,4120
+#define ELF_AT_EUID	ELF_AT_EUID174,4159
+#define ELF_AT_GID	ELF_AT_GID175,4204
+#define ELF_AT_EGID	ELF_AT_EGID176,4243
+#define ELF_AT_CLKTCK	ELF_AT_CLKTCK177,4288
+	uint32_t e_magic;e_magic180,4360
+	uint8_t e_ident[12];e_ident181,4379
+	uint16_t e_type;e_type182,4401
+	uint16_t e_machine;e_machine183,4419
+	uint32_t e_version;e_version184,4440
+	uint32_t e_entry;e_entry185,4461
+	uint32_t e_phoff;e_phoff186,4480
+	uint32_t e_shoff;e_shoff187,4499
+	uint32_t e_flags;e_flags188,4518
+	uint16_t e_ehsize;e_ehsize189,4537
+	uint16_t e_phentsize;e_phentsize190,4557
+	uint16_t e_phnum;e_phnum191,4580
+	uint16_t e_shentsize;e_shentsize192,4599
+	uint16_t e_shnum;e_shnum193,4622
+	uint16_t e_shstrndx;e_shstrndx194,4641
+} Elf32_Ehdr;Elf32_Ehdr195,4663
+	uint32_t p_type;p_type198,4695
+	uint32_t p_offset;p_offset199,4713
+	uint32_t p_vaddr;p_vaddr200,4733
+	uint32_t p_paddr;p_paddr201,4752
+	uint32_t p_filesz;p_filesz202,4771
+	uint32_t p_memsz;p_memsz203,4791
+	uint32_t p_flags;p_flags204,4810
+	uint32_t p_align;p_align205,4829
+} Elf32_Phdr;Elf32_Phdr206,4848
+	uint32_t sh_name;sh_name209,4880
+	uint32_t sh_type;sh_type210,4899
+	uint32_t sh_flags;sh_flags211,4918
+	uint32_t sh_addr;sh_addr212,4938
+	uint32_t sh_offset;sh_offset213,4957
+	uint32_t sh_size;sh_size214,4978
+	uint32_t sh_link;sh_link215,4997
+	uint32_t sh_info;sh_info216,5016
+	uint32_t sh_addralign;sh_addralign217,5035
+	uint32_t sh_entsize;sh_entsize218,5059
+} Elf32_Shdr;Elf32_Shdr219,5081
+	uint32_t st_name;st_name222,5113
+	uint32_t st_value;st_value223,5132
+	uint32_t st_size;st_size224,5152
+	uint8_t st_info;st_info225,5171
+	uint8_t st_other;st_other226,5189
+	uint16_t st_shndx;st_shndx227,5208
+} Elf32_Sym;Elf32_Sym228,5228
+
+boot.S,895
+#define DIRECT_BOOT_EAX_MAGIC	0x6A6F7362DIRECT_BOOT_EAX_MAGIC18,723
+#define STA_A (1 << 0)	/* Accessed */STA_A21,812
+#define STA_W (1 << 1)	/* Writable (for data segments) */STA_W22,850
+#define STA_E (1 << 2)	/* Expand down (for data segments) */STA_E23,908
+#define STA_X (1 << 3)	/* 1 = Code segment (executable) */STA_X24,969
+#define STA_R (1 << 1)	/* Readable (for code segments) */STA_R25,1028
+#define STA_C (1 << 2)	/* Conforming (for code segments) */STA_C26,1086
+#define SEG32_ASM(type, base, lim)					\SEG32_ASM28,1148
+start:		.code16				# This runs in real modestart52,2277
+nobiosmem:	xorw	%cx,%cxnobiosmem104,4107
+memdetected:memdetected106,4146
+real_to_prot:	cli				# Mandatory since we dont set up an IDTreal_to_prot118,4785
+protcseg:protcseg130,5284
+spin:		jmp	spin			# ..but in case it does, spinspin149,5910
+gdt:gdt152,6000
+gdtdesc:gdtdesc157,6130
+
+constante.h,328
+#define __CONSTANTE_H___CONSTANTE_H_2,23
+typedef unsigned char uint8_t;uint8_t4,47
+typedef unsigned short uint16_t;uint16_t5,78
+#define COM1 COM17,112
+#define COM2 COM29,144
+#define UART UART11,176
+#define HISTORY_SIZE HISTORY_SIZE13,210
+#define LINE_SIZE LINE_SIZE14,234
+#define SCREEN_SIZE SCREEN_SIZE16,260
+
+kprintf.c,1360
+typedef unsigned long long uintmax_t;uintmax_t42,2063
+typedef long long intmax_t;intmax_t43,2101
+typedef unsigned int uintmax_t;uintmax_t45,2135
+typedef int intmax_t;intmax_t46,2167
+typedef unsigned char u_char;u_char48,2196
+typedef unsigned int u_int;u_int49,2226
+typedef unsigned long u_long;u_long50,2254
+typedef unsigned short u_short;u_short51,2284
+typedef unsigned long long u_quad_t;u_quad_t52,2316
+typedef long long quad_t;quad_t53,2353
+typedef unsigned long uintptr_t;uintptr_t54,2379
+typedef long ptrdiff_t;ptrdiff_t55,2412
+typedef unsigned int size_t;size_t56,2436
+typedef int ssize_t;ssize_t57,2465
+#define NULL NULL58,2486
+#define NBBY NBBY60,2509
+char const hex2ascii_data[] = "0123456789abcdefghijklmnopqrstuvwxyz";hex2ascii_data61,2572
+#define hex2ascii(hex2ascii62,2642
+#define va_list va_list63,2688
+#define va_start va_start64,2722
+#define va_arg va_arg65,2758
+#define va_end va_end66,2790
+#define toupper(toupper67,2822
+strlen(const char *s) {strlen70,2907
+#define MAXNBUF MAXNBUF78,3066
+ksprintn(char *nbuf, uintmax_t num, int base, int *lenp, int upper) {ksprintn87,3411
+kvprintf(char const *fmt, void (*func)(int, void*), void *arg, int radix, va_list ap) {kvprintf128,4458
+#define PCHAR(PCHAR130,4547
+#undef PCHARPCHAR437,11387
+kprintf(const char *fmt, ...) {kprintf443,11449
+
+crt0.S,91
+#define FIRST_STACK_SIZE 8192FIRST_STACK_SIZE18,723
+crt0:crt025,830
+hang:hang45,1081
