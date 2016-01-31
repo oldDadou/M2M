@@ -66,7 +66,7 @@ char const hex2ascii_data[] = "0123456789abcdefghijklmnopqrstuvwxyz";
 #define va_end __builtin_va_end
 #define toupper(c)      ((c) - 0x20 * (((c) >= 'a') && ((c) <= 'z')))
 
-static size_t 
+static size_t
 strlen(const char *s) {
   size_t l = 0;
   while (*s++)
@@ -86,7 +86,7 @@ strlen(const char *s) {
 static char *
 ksprintn(char *nbuf, uintmax_t num, int base, int *lenp, int upper) {
   char *p, c;
-  
+
   p = nbuf;
   *p = '\0';
   do {

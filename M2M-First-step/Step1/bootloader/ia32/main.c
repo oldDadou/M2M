@@ -19,7 +19,7 @@
 typedef struct s_hisory {
   int elements;
   int cursor;
-  char history[HISTORY_SIZE * LINE_SIZE];
+  char history[ HISTORY_SIZE * LINE_SIZE ];
 } history;
 
 static __inline __attribute__((always_inline, no_instrument_function))
@@ -128,7 +128,7 @@ void kmain(void) {
   hist.cursor = 0;
   hist.elements = 0;
 
-  for (int i = 0 ; i < LINE_SIZE * HISTORY_SIZE; i++) {
+  for(int i = 0 ; i < LINE_SIZE * HISTORY_SIZE;i++) {
         hist.history[i] = 'c';
   }
 
@@ -137,14 +137,14 @@ void kmain(void) {
     screen[i] = 0x2a;
   }
 
-  serial_init(COM1);
-  serial_write_string(COM1,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
-
-  serial_write_char(COM1,'>');
+  serial_init(COM2);
+  serial_write_string(COM2,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
+  kprintf("hello !!!! ");
+  serial_write_char(COM2,'>');
   int current_history = 0;
   while(1) {
     unsigned char c;
-    c=serial_read(COM1);
+    c=serial_read(COM2);
       if (c==13) {
         save_line(&(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
         if(cursor / LINE_SIZE >= 24 ) {
@@ -163,8 +163,8 @@ void kmain(void) {
         }
         current_history = 0;
       } else if (c == '\033') {
-        serial_read(COM1);
-        char arrow = serial_read(COM1);
+        serial_read(COM2);
+        char arrow = serial_read(COM2);
         if(arrow == 'A') {
           history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
           if(current_history + 1 < hist.elements) current_history++;

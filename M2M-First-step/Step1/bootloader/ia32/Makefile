@@ -98,14 +98,17 @@ loader.o: loader.c loader.h
 # the bootloader itself. Oh well...
 #----------------------------------------------------------------------
 
-kernel.elf: main.o crt0.o
+kernel.elf: main.o crt0.o kprintf.o
 	$(LD) -nostdlib -m elf_i386 -e crt0 -Tldscript -o $@ $+
 
 crt0.o: crt0.S
 	$(AS) -c $(ASFLAGS) -o $@ $<
 
-main.o: main.c
+main.o: main.c kprintf.c
 	$(CC) -c $(CFLAGS) -o $@ $<
+
+kprintf.o: kprintf.c
+		$(CC) -c $(CFLAGS) -o $@ $<
 
 #----------------------------------------------------------------------
 
