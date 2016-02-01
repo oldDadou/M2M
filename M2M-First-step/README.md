@@ -7,5 +7,6 @@ Nous avons fait toutes les extensions demandées dans le Worklog.
 * Compilation de kprintf et affichage dans COM2
 * connexion via telnet
 * Utilisation pratique et avancée d'un debugger (cgdb dans notre cas)
+* une version compilé du rapport est dans le dossier rapport/
 
 ** Attention : L'état actuel du projet ne permet plus l'Utilisation de COM1. Le projet doit donc être lancé via `make run2`**
