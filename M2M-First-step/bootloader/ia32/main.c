@@ -16,11 +16,37 @@
 */
 #include "constante.h"
 
+// Structure utilisé pour l'historique des commandes
+// L'historique est implémenté comme un circular buffer.
 typedef struct s_hisory {
   int elements;
-  int cursor;
+  int offset;
   char history[ HISTORY_SIZE * LINE_SIZE ];
 } history;
+
+//Permet de récupérer un ligne de l'historique passé en paramètres
+void history_get_line(int n_line, volatile char *out_line, const history *hist) {
+  if(hist->elements == 0) return;
+  n_line = hist->elements - 1 - n_line;
+  n_line = hist->offset + n_line >= hist->elements ? (n_line + hist->offset) - hist->elements : hist->offset + n_line;
+  int start = n_line * LINE_SIZE;
+  for(int i  = 0; i < LINE_SIZE; i++) {
+    out_line[i] = hist->history[start + i];
+  }
+}
+
+//Sauvegarde une ligne dans l'historique à la position courante du curseur
+void save_line(volatile char *line, history *hist) {
+  int start = hist->offset * LINE_SIZE;
+  for(int i = 0; i < LINE_SIZE; i++) {
+    hist->history[start + i] = line[i];
+  }
+  if(hist->elements < HISTORY_SIZE) hist->elements++;
+
+  hist->offset++;
+  if(hist->offset == HISTORY_SIZE) hist->offset = 0;
+}
+
 
 static __inline __attribute__((always_inline, no_instrument_function))
 uint8_t inb(uint16_t port) {
@@ -102,31 +128,12 @@ void shift_screen(volatile char* screen) {
   }
 }
 
-void history_get_line(int n_line, volatile char *out_line, const history *hist) {
-  n_line = hist->elements - 1 - n_line;
-  n_line = hist->cursor + n_line >= hist->elements ? (n_line + hist->cursor) - hist->elements : hist->cursor + n_line;
-  int start = n_line * LINE_SIZE;
-  for(int i  = 0; i < LINE_SIZE; i++) {
-    out_line[i] = hist->history[start + i];
-  }
-}
-
-void save_line(volatile char *line, history *hist) {
-  int start = hist->cursor * LINE_SIZE;
-  for(int i = 0; i < LINE_SIZE; i++) {
-    hist->history[start + i] = line[i];
-  }
-  if(hist->elements < HISTORY_SIZE) hist->elements++;
-
-  hist->cursor++;
-  if(hist->cursor == HISTORY_SIZE) hist->cursor = 0;
-}
 
 void kmain(void) {
   int cursor = 0;
   volatile char *screen = (volatile char*)0xB8000;
   history hist;
-  hist.cursor = 0;
+  hist.offset = 0;
   hist.elements = 0;
 
   for(int i = 0 ; i < LINE_SIZE * HISTORY_SIZE;i++) {
@@ -140,16 +147,16 @@ void kmain(void) {
 
   serial_init(COM2);
   serial_write_string(COM2,"\n\rHello!\n\r\nThis is a simple echo console... please type something.\n\r");
-  kprintf("hello !!!! ");
+  kprintf("kprintf says hello");
   serial_write_char(COM2,'>');
   int current_history = 0;
   while(1) {
     unsigned char c;
     c=serial_read(COM2);
-      if (c==13) {
-        save_line(&(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+      if (c==13) { // traitement d'un retour chariot
+        save_line(&(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist); // on sauvegarde la ligne dans l'historique
         if(cursor / LINE_SIZE >= 24 ) {
-          shift_screen(screen);
+          shift_screen(screen); // Si le curseur et en bas de l'écran alors on shift pour le scrolling
           int pos = cursor % LINE_SIZE;
           cursor = cursor - pos;
         } else {
@@ -163,15 +170,21 @@ void kmain(void) {
           screen[cursor] = ' ';
         }
         current_history = 0;
-      } else if (c == '\033') {
+      } else if (c == '\033') { // Traitement des touches 'arrows'
         serial_read(COM2);
         char arrow = serial_read(COM2);
-        if(arrow == 'A') {
+        if(arrow == 'A') { // arrow up
           history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
           if(current_history + 1 < hist.elements) current_history++;
-        } else if(arrow == 'B') {
+        } else if(arrow == 'B') { // arrow down
           if(current_history - 1 >= 0) current_history--;
           history_get_line(current_history, &(screen[LINE_SIZE * (cursor / LINE_SIZE)]), &hist);
+        } else if(arrow == 'D') { // arrow left
+          if(cursor != 0)
+            cursor -= 2;
+        }  else if(arrow == 'C') { // arrow right
+          if(cursor <= LINE_SIZE)
+            cursor += 2;
         }
       } else {
         screen[cursor] = c;

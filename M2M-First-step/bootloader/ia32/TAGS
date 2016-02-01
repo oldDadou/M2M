@@ -12,24 +12,24 @@ void readseg(uint32_t va, uint32_t count, uint32_t offset) {readseg59,1605
 uint32_t load_elf() {load_elf81,2170
 void diskboot(uint32_t _eax, uint32_t _ebx) {diskboot122,3278
 
-main.c,968
-typedef struct s_hisory {s_hisory19,746
-  int elements;elements20,772
-  int cursor;cursor21,788
-  char history[ HISTORY_SIZE * LINE_SIZE ];history22,802
-} history;history23,846
-uint8_t inb(uint16_t port) {inb26,929
-void outb(uint16_t port, uint8_t data) {outb33,1124
-static void serial_init(uint16_t port) {serial_init38,1231
-void serial_write_char(uint16_t port, char c) {serial_write_char54,1775
-void serial_write_string(uint16_t port, const unsigned char *s) {serial_write_string60,1888
-char serial_read(uint16_t port) {serial_read67,2024
-void write_string( int colour, const char *string ) {write_string87,2517
-void kputchar(int c, void *arg) {kputchar95,2717
-void shift_screen(volatile char* screen) {shift_screen99,2783
-void history_get_line(int n_line, volatile char *out_line, const history *hist) {history_get_line105,2926
-void save_line(volatile char *line, history *hist) {save_line113,3253
-void kmain(void) {kmain124,3560
+main.c,970
+typedef struct s_hisory {s_hisory21,859
+  int elements;elements22,885
+  int offset;offset23,901
+  char history[ HISTORY_SIZE * LINE_SIZE ];history24,915
+} history;history25,959
+void history_get_line(int n_line, volatile char *out_line, const history *hist) {history_get_line28,1042
+void save_line(volatile char *line, history *hist) {save_line39,1518
+uint8_t inb(uint16_t port) {inb52,1895
+void outb(uint16_t port, uint8_t data) {outb59,2090
+static void serial_init(uint16_t port) {serial_init64,2197
+void serial_write_char(uint16_t port, char c) {serial_write_char80,2741
+void serial_write_string(uint16_t port, const unsigned char *s) {serial_write_string86,2854
+char serial_read(uint16_t port) {serial_read93,2990
+void write_string( int colour, const char *string ) {write_string113,3483
+void kputchar(int c, void *arg) {kputchar121,3683
+void shift_screen(volatile char* screen) {shift_screen125,3749
+void kmain(void) {kmain132,3891
 
 loader.h,4813
 #define __LOADER____LOADER__3,20
@@ -164,16 +164,16 @@ spin:		jmp	spin			# ..but in case it does, spinspin149,5910
 gdt:gdt152,6000
 gdtdesc:gdtdesc157,6130
 
-constante.h,328
+constante.h,332
 #define __CONSTANTE_H___CONSTANTE_H_2,23
-typedef unsigned char uint8_t;uint8_t4,47
-typedef unsigned short uint16_t;uint16_t5,78
-#define COM1 COM17,112
-#define COM2 COM29,144
-#define UART UART11,176
-#define HISTORY_SIZE HISTORY_SIZE13,210
-#define LINE_SIZE LINE_SIZE14,234
-#define SCREEN_SIZE SCREEN_SIZE16,260
+typedef unsigned char uint8_t;uint8_t7,145
+typedef unsigned short uint16_t;uint16_t8,176
+#define COM1 COM110,210
+#define COM2 COM211,241
+#define UART UART13,273
+#define HISTORY_SIZE HISTORY_SIZE15,307
+#define LINE_SIZE LINE_SIZE16,330
+#define SCREEN_SIZE SCREEN_SIZE18,356
 
 kprintf.c,1360
 typedef unsigned long long uintmax_t;uintmax_t42,2063
